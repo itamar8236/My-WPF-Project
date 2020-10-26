@@ -1,0 +1,174 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace WpfApplication1
+{
+    /// <summary>
+    /// Interaction logic for Instructions.xaml
+    /// </summary>
+    public partial class Instructions : Window
+    {
+        public GameMode game = new GameMode();//חלון המשחק
+        public Instructions()
+        {
+            InitializeComponent();
+        }
+
+        private void Window_Activated(object sender, EventArgs e)//מעדכן מידע לפי השלב, כשהחלון עולה
+        {
+            ConstInfo.Text = "In every game mode, control the cannon with the arrow keys, and fire with space key. \nYou can't shoot while moving the cannon or the barrel.";
+            if (game.level == 0)
+            {
+                Information.Text = "This is the Trainig program. Here you can design the game as you wish. \n(You have an endless shots and time)";
+                TargetsNumInvite.Visibility = Visibility.Visible;
+                targetsNumber.Visibility = Visibility.Visible;
+                SpeedInvite.Visibility = Visibility.Visible;
+                Speed.Visibility = Visibility.Visible;
+                NoPhs.Visibility = Visibility.Visible;
+                WithPhs.Visibility = Visibility.Visible;
+                VTargetInvite.Visibility = Visibility.Visible;
+                VTarget.Visibility = Visibility.Visible;
+                NoPhs.IsChecked = true;
+            }
+            else
+            {
+                easyinfo.Visibility = Visibility.Visible;
+                easy.Visibility = Visibility.Visible;
+                mediuminfo.Visibility = Visibility.Visible;
+                medium.Visibility = Visibility.Visible;
+                hardinfo.Visibility = Visibility.Visible;
+                hard.Visibility = Visibility.Visible;
+                easy.IsChecked = true;
+                Information.Text = "In every mode, the speed of the cannonball targets and the number of the targets is diffrent.";
+                if (game.level == 1)
+                {
+                    Information.Text += "\nThis is level 1, in this level you don't need to calculate gravity influance. \nThe ball will fly in the same height during the shot.";
+                    easyinfo.Text = "In the easy mode, you have 1.5 minutes and 25 balls";
+                    mediuminfo.Text = "In the medium mode, you have 1 minute and 10 balls";
+                    hardinfo.Text = "In the hard mode, you have 30 seconds and 7 balls";
+                }
+                else
+                {
+                    Information.Text += "\nThis is level 2, in this level the gravity influance your shot. \nCalculate the shot and notice that the higher the Barrel, the deep the ball wiil go.";
+                    easyinfo.Text = "In the easy mode, you have 1 minute and 20 balls";
+                    mediuminfo.Text = "In the medium mode, you have 45 seconds and 25 balls";
+                    hardinfo.Text = "In the hard mode, you have 30 seconds and 12 balls";
+                }
+            }
+            
+            
+        }
+
+        private void GameStart(object sender, MouseButtonEventArgs e)//מתחיל את המשחק
+        {
+            switch(game.level)
+            { 
+                case 0:
+                    bool legalInput = int.TryParse(targetsNumber.Text, out game.numOftargets);//בודק שהקלט תקין ושם ערכים במקום
+                    legalInput = game.numOftargets <= 20 && game.numOftargets >= 1 && legalInput;
+                    legalInput = double.TryParse(Speed.Text, out game.speed) && legalInput;
+                    legalInput = game.speed <= 1000 && game.speed >= 10 && legalInput;
+                    legalInput = double.TryParse(VTarget.Text, out game.VfirstTarget) && legalInput;
+                    legalInput = game.VfirstTarget <= 50 && game.VfirstTarget >= 0 && legalInput;
+                    if (!legalInput)
+                        MessageBox.Show("Illegal input!!!");
+                    else
+                    {
+                        game.IsTraining = true;
+                        if (NoPhs.IsChecked == true)
+                            game.level = 1;
+                        else
+                            game.level = 2;
+                        game.Show();
+                        Close();
+                    }
+                    
+                break;
+                case 1://מעדכן ערכים לפי שלב וקושי
+                    if (easy.IsChecked == true)
+                    {
+                        game.numOftargets = 7;
+                        game.speed = 300;
+                        game.VfirstTarget = 10;
+                        game.NumOfShotsAllowd = 25;
+                        game.NumOfSecsAllowd = 90;
+                    }
+                    else if (medium.IsChecked == true)
+                    {
+                        game.numOftargets = 5;
+                        game.speed = 250;
+                        game.VfirstTarget = 14;
+                        game.NumOfShotsAllowd = 10;
+                        game.NumOfSecsAllowd = 60;
+                    }
+                    else
+                    {
+                        game.numOftargets = 5;
+                        game.speed = 200;
+                        game.VfirstTarget = 18;
+                        game.NumOfShotsAllowd = 7;
+                        game.NumOfSecsAllowd = 30;
+                    }
+                    game.Show();
+                    Close();
+                    break;
+                case 2:
+                    if (easy.IsChecked == true)
+                    {
+                        game.numOftargets = 4;
+                        game.speed = 180;
+                        game.VfirstTarget = 12;
+                        game.NumOfShotsAllowd = 20;
+                        game.NumOfSecsAllowd = 60;
+                    }
+                    else if (medium.IsChecked == true)
+                    {
+                        game.numOftargets = 6;
+                        game.speed = 150;
+                        game.VfirstTarget = 15;
+                        game.NumOfShotsAllowd = 25;
+                        game.NumOfSecsAllowd = 45;
+                    }
+                    else
+                    {
+                        game.numOftargets = 5;
+                        game.speed = 150;
+                        game.VfirstTarget = 20;
+                        game.NumOfShotsAllowd = 12;
+                        game.NumOfSecsAllowd = 30;
+                    }
+                    game.Show();
+                    Close();
+                    break;
+            }
+        }
+
+        private void Mouse_Enter(object sender, MouseEventArgs e)//מגדיל טקסט
+        {
+            Growing.Grow_Up((TextBlock)sender, 15, 0.5);
+        }
+
+        private void Mouse_Leave(object sender, MouseEventArgs e)//מקטין טקסט
+        {
+            Growing.Grow_Down((TextBlock)sender);
+        }
+
+        private void GoBack(object sender, MouseButtonEventArgs e)//אחורה
+        {
+            MainWindow mn = new MainWindow();
+            mn.Show();
+            Close();
+        }
+    }
+}
