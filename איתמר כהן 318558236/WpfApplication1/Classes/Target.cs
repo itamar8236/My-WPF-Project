@@ -144,7 +144,7 @@ namespace WpfApplication1
         /// </summary>
         /// <param name="To">The end angle in degrees. -90 deg is fallen target.</param>
         /// <param name="time">Time of animation</param>
-        public void Rotate(double To, double time)//מפעיל אנימצית סיבוב
+        public void Rotate(double To, double time)
         {
             DAnim.RepeatBehavior = new RepeatBehavior(1);
             DAnim.AutoReverse = false;

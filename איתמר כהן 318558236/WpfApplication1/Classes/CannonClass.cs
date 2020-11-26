@@ -85,7 +85,7 @@ namespace WpfApplication1
         /// Function for knowing the entire cannon's angle
         /// </summary>
         /// <returns>The current entire cannon's angle</returns>
-        public double GetCurAllCannonAngle()//מחזיר זווית עכשווית של התותח
+        public double GetCurAllCannonAngle()
         {
             return 180 - ((AxisAngleRotation3D)((RotateTransform3D)((Transform3DGroup)CannonModel.Transform).Children[1]).Rotation).Angle;
         }
@@ -93,7 +93,7 @@ namespace WpfApplication1
         /// Function for knowing the entire barrel's angle
         /// </summary>
         /// <returns>The current entire barrel's angle</returns>
-        public double GetCurBarrelAngle()//מחזיר זווית עכשווית של הקנה
+        public double GetCurBarrelAngle()
         {
             return Math.Abs(((AxisAngleRotation3D)((RotateTransform3D)((Transform3DGroup)BarrelModel.Transform).Children[1]).Rotation).Angle);
         }
@@ -137,7 +137,7 @@ namespace WpfApplication1
         /// <param name="Model">The 3D model to rotate</param>
         /// <param name="to">End angle</param>
         /// <param name="time">Time of animation.</param>
-        private  void Rotate(Model3D Model, double to, double time)//מפעיל אנימצית סיבוב
+        private  void Rotate(Model3D Model, double to, double time)
         {
             Danim.To = to;
             Danim.Duration = TimeSpan.FromSeconds(time);

@@ -92,7 +92,7 @@ namespace WpfApplication1
         /// <param name="time1">Time until ball at max height</param>
         /// <param name="time2">Time from max height to the end of animation</param>
         /// <param name="endY">The ending Y position</param>
-        public void MoveY(double to, double time1, double time2, double endY)//אנימציה ראשונה על ציר הY
+        public void MoveY(double to, double time1, double time2, double endY)
         {
             DanimY.To = to;
             DanimY.Duration = TimeSpan.FromSeconds(time1);
