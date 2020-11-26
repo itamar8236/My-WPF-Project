@@ -10,13 +10,25 @@ namespace WpfApplication1
     /// </summary>
     public partial class Instructions : Window
     {
-        public GameMode game = new GameMode();//חלון המשחק
+        /// <summary>
+        /// Game mode window
+        /// </summary>
+        public GameMode game = new GameMode();
+
+        /// <summary>
+        /// Construction for Instruction window
+        /// </summary>
         public Instructions()
         {
             InitializeComponent();
         }
 
-        private void Window_Activated(object sender, EventArgs e)//מעדכן מידע לפי השלב, כשהחלון עולה
+        /// <summary>
+        /// Updates data when window apears
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Activated(object sender, EventArgs e)
         {
             ConstInfo.Text = "In every game mode, control the cannon with the arrow keys, and fire with space key. \nYou can't shoot while moving the cannon or the barrel.";
             if (game.level == 0)
@@ -57,14 +69,18 @@ namespace WpfApplication1
                     hardinfo.Text = "In the hard mode, you have 30 seconds and 12 balls";
                 }
             }
-            
-            
         }
 
-        private void GameStart(object sender, MouseButtonEventArgs e)//מתחיל את המשחק
+        /// <summary>
+        /// Starts game mode.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameStart(object sender, MouseButtonEventArgs e)
         {
-            switch(game.level)
-            { 
+            switch (game.level)
+            {
+                //training data
                 case 0:
                     bool legalInput = int.TryParse(targetsNumber.Text, out game.numOftargets);//בודק שהקלט תקין ושם ערכים במקום
                     legalInput = game.numOftargets <= 20 && game.numOftargets >= 1 && legalInput;
@@ -84,9 +100,9 @@ namespace WpfApplication1
                         game.Show();
                         Close();
                     }
-                    
-                break;
-                case 1://מעדכן ערכים לפי שלב וקושי
+                    break;
+                //update level 1 data
+                case 1:
                     if (easy.IsChecked == true)
                     {
                         game.numOftargets = 7;
@@ -114,6 +130,7 @@ namespace WpfApplication1
                     game.Show();
                     Close();
                     break;
+                //update level 2 data.
                 case 2:
                     if (easy.IsChecked == true)
                     {
@@ -145,16 +162,31 @@ namespace WpfApplication1
             }
         }
 
-        private void Mouse_Enter(object sender, MouseEventArgs e)//מגדיל טקסט
+        /// <summary>
+        /// This function increases the text when mouse is entering.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Mouse_Enter(object sender, MouseEventArgs e)
         {
             Growing.Grow_Up((TextBlock)sender, 15, 0.5);
         }
 
-        private void Mouse_Leave(object sender, MouseEventArgs e)//מקטין טקסט
+        /// <summary>
+        /// This function decreasing the text when mouse is leaving.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Mouse_Leave(object sender, MouseEventArgs e)
         {
             Growing.Grow_Down((TextBlock)sender);
         }
 
+        /// <summary>
+        /// This function returns the game to Main window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GoBack(object sender, MouseButtonEventArgs e)//אחורה
         {
             MainWindow mn = new MainWindow();

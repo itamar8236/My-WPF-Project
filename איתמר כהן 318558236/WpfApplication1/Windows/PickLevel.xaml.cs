@@ -9,14 +9,25 @@ namespace WpfApplication1
     /// </summary>
     public partial class PickLevel : Window
     {
+        /// <summary>
+        /// The instruction window.
+        /// </summary>
+        Instructions inst = new Instructions();
 
-        Instructions inst = new Instructions();//חלון ההוראות
+        /// <summary>
+        /// Construction for PickLevekl
+        /// </summary>
         public PickLevel()
         {
             InitializeComponent();
         }
 
-        private void PickLevel_MouseDown(object sender, MouseButtonEventArgs e)//המשתמש לחץ על שלב
+        /// <summary>
+        /// Opening instruction window and update level according to the user's choice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PickLevel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.Source == Level1)
             {
@@ -35,23 +46,40 @@ namespace WpfApplication1
             }
             else GoBack();
         }
-       
+
+        /// <summary>
+        /// Opens instruction window
+        /// </summary>
         public void StartGame()//מתחיל את המשחק
         {
             inst.Show();
             Close();
         }
-        public void GoBack()//הולך אחורה
+
+        /// <summary>
+        /// This function sents the user back to Main window.
+        /// </summary>
+        public void GoBack()
         {
             MainWindow mn = new MainWindow();
             mn.Show();
             Close();
         }
+
+        /// <summary>
+        /// This function increases the text when mouse is entering.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PickLevel_MouseEnter(object sender, MouseEventArgs e)//עכבר נכנס לאחד הטקסטבוקסים
         {
             Growing.Grow_Up((TextBlock)sender, 10, 0.5);
         }
-
+        /// <summary>
+        /// This function decreasing the text when mouse is leaving.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PickLevel_MouseLeave(object sender, MouseEventArgs e)//עכבר יצא מאחד הטקסטבוקסים
         {
             Growing.Grow_Down((TextBlock)sender);

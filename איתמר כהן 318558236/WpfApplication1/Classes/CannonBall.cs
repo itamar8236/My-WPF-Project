@@ -53,12 +53,12 @@ namespace WpfApplication1
             IsThisHitBall = Kindofball;
             DanimForHitBall.Completed += EndOfHittedShot;
         }
-        
+
         /// <summary>
         /// Function for knowing current X position
         /// </summary>
         /// <returns>The current X position on the screen</returns>
-        public double GetCurXPos() 
+        public double GetCurXPos()
         { return ((TranslateTransform3D)(((Transform3DGroup)(ballModel.Transform)).Children[2])).OffsetX; }
         /// <summary>
         /// Function for knowing current Y position
@@ -120,9 +120,9 @@ namespace WpfApplication1
         /// <param name="time">Time of the animation.</param>
         public void MoveZ(double to, double time)
         {
-            if(IsThisHitBall)
+            if (IsThisHitBall)
             {
-                
+
                 DanimForHitBall.To = to;
                 DanimForHitBall.Duration = TimeSpan.FromSeconds(time);
                 ((TranslateTransform3D)(((Transform3DGroup)(ballModel.Transform)).Children[2])).BeginAnimation(TranslateTransform3D.OffsetZProperty, DanimForHitBall);
@@ -149,11 +149,11 @@ namespace WpfApplication1
             Danim.To = -90;
             Danim.Duration = TimeSpan.FromSeconds(1);
             ((RotateTransform3D)(((Transform3DGroup)(ballModel.Transform)).Children[1])).Rotation.BeginAnimation(AxisAngleRotation3D.AngleProperty, Danim);
-            
+
         }
     }
 }
 
 
 
-    
+

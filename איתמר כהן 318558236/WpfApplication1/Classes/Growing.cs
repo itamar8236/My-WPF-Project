@@ -12,7 +12,7 @@ namespace WpfApplication1
         /// <summary>
         /// Animation.
         /// </summary>
-        private static DoubleAnimation anim= new DoubleAnimation();
+        private static DoubleAnimation anim = new DoubleAnimation();
         /// <summary>
         /// Original and maximum text size.
         /// </summary>

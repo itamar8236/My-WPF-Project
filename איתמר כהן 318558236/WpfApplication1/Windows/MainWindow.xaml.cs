@@ -8,12 +8,20 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Constructor for Main window
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void MainMenu_MouseDown(object sender, MouseButtonEventArgs e)//המשתמש לחץ על אחד מהאפשרויות
+        /// <summary>
+        /// Opening new window according to the user's choice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainMenu_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.Source == Play)
                 GamePlay();
@@ -23,30 +31,49 @@ namespace WpfApplication1
                 QuitProject();
         }
 
-        public void About()//פותח חלון About
+        /// <summary>
+        /// This function opens the "About" window
+        /// </summary>
+        public void About()
         {
             TbAbout about = new TbAbout();
             about.Show();
         }
-        private void MenuMouseEnter(object sender, MouseEventArgs e)//העכבר נכנס לאחד הטקסטבוקסים
+        /// <summary>
+        /// This function increases the text when mouse is entering.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuMouseEnter(object sender, MouseEventArgs e)
         {
             Growing.Grow_Up((TextBlock)sender, 15, 0.5);
         }
-        private void MenuMouseLeave(object sender, MouseEventArgs e)//העכבר יצא מאחד הטקסטבוקסים
+        /// <summary>
+        /// This function decreasing the text when mouse is leaving.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuMouseLeave(object sender, MouseEventArgs e)
         {
             Growing.Grow_Down((TextBlock)sender);
         }
 
-        public void GamePlay()//עובר לחלון בחירת שלב
+        /// <summary>
+        /// This function opens Pick Level window.
+        /// </summary>
+        public void GamePlay()
         {
             PickLevel pick = new PickLevel();
             pick.Show();
             Close();
         }
-        public void QuitProject()//יוצא מהמשחק
+        /// <summary>
+        /// Exit game.
+        /// </summary>
+        public void QuitProject()
         {
             Application.Current.Shutdown();
         }
-        
+
     }
 }

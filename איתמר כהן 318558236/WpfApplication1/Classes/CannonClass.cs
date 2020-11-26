@@ -7,7 +7,7 @@ namespace WpfApplication1
     /// <summary>
     /// Cannon class
     /// </summary>
-    public  class CannonClass
+    public class CannonClass
     {
         /// <summary>
         /// Firing' start speed.
@@ -109,7 +109,7 @@ namespace WpfApplication1
         /// <summary>
         /// Stops the animation on the entire cannon.
         /// </summary>
-        public  void StopAllCannon()
+        public void StopAllCannon()
         {
             ((AxisAngleRotation3D)((RotateTransform3D)((Transform3DGroup)CannonModel.Transform).Children[1]).Rotation).Angle = ((AxisAngleRotation3D)((RotateTransform3D)((Transform3DGroup)CannonModel.Transform).Children[1]).Rotation).Angle;
             ((RotateTransform3D)(((Transform3DGroup)(CannonModel.Transform)).Children[1])).Rotation.BeginAnimation(AxisAngleRotation3D.AngleProperty, null);
@@ -126,7 +126,7 @@ namespace WpfApplication1
         /// <summary>
         /// Stops the animation on the barrel.
         /// </summary>
-        public  void StopBarrel()
+        public void StopBarrel()
         {
             ((AxisAngleRotation3D)((RotateTransform3D)((Transform3DGroup)BarrelModel.Transform).Children[1]).Rotation).Angle = ((AxisAngleRotation3D)((RotateTransform3D)((Transform3DGroup)BarrelModel.Transform).Children[1]).Rotation).Angle;
             ((RotateTransform3D)(((Transform3DGroup)(BarrelModel.Transform)).Children[1])).Rotation.BeginAnimation(AxisAngleRotation3D.AngleProperty, null);
@@ -137,7 +137,7 @@ namespace WpfApplication1
         /// <param name="Model">The 3D model to rotate</param>
         /// <param name="to">End angle</param>
         /// <param name="time">Time of animation.</param>
-        private  void Rotate(Model3D Model, double to, double time)
+        private void Rotate(Model3D Model, double to, double time)
         {
             Danim.To = to;
             Danim.Duration = TimeSpan.FromSeconds(time);

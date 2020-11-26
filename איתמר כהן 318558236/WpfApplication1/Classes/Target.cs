@@ -119,7 +119,7 @@ namespace WpfApplication1
         /// <returns>The current X position of the target.</returns>
         public double GetCurXPos()
         { return ((TranslateTransform3D)((Transform3DGroup)TargetModel.Transform).Children[2]).OffsetX; }
-        
+
         /// <summary>
         /// Starts the endless animation.
         /// </summary>

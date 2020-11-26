@@ -9,7 +9,8 @@ using System.Windows.Media.Animation;
 namespace WpfApplication1
 {
     /// <summary>
-    /// Interaction logic for About.xaml
+    /// Interaction logic for About.xaml.
+    /// This window were not written by me. 
     /// </summary>
     public partial class TbAbout : Window
     {
