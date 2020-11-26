@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
-namespace WpfApplication1
+namespace Bullseye
 {
     /// <summary>
     /// Class for increaing text animation on textblocks.

@@ -6,7 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using System.Windows.Media.Animation;
 
-namespace WpfApplication1
+namespace Bullseye
 {
     /// <summary>
     /// Interaction logic for About.xaml.

@@ -2,7 +2,7 @@
 using System.Windows.Media.Media3D;
 using System.Windows.Media.Animation;
 
-namespace WpfApplication1
+namespace Bullseye
 {
     /// <summary>
     /// Target class

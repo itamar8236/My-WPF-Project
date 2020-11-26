@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WpfApplication1
+namespace Bullseye
 {
     /// <summary>
     /// Interaction logic for Instructions.xaml

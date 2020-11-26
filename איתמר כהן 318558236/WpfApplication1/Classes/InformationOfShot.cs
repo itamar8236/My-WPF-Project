@@ -1,4 +1,4 @@
-﻿namespace WpfApplication1
+﻿namespace Bullseye
 {
     /// <summary>
     /// Class for the current shot information.

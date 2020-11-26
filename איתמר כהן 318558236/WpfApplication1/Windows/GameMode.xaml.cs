@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 
 
-namespace WpfApplication1
+namespace Bullseye
 {
     /// <summary>
     /// Interaction logic for Window1.xaml

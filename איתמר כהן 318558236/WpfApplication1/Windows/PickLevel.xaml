@@ -1,11 +1,11 @@
-﻿<Window x:Class="WpfApplication1.PickLevel"
+﻿<Window x:Class="Bullseye.PickLevel"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApplication1"
+        xmlns:local="clr-namespace:Bullseye"
         mc:Ignorable="d"
-         Title="Pick Level" Height="700" Width="800" WindowState="Maximized" WindowStyle="None" Icon="/WpfApplication1;component/Images/icon.jpg">
+         Title="Pick Level" Height="700" Width="800" WindowState="Maximized" WindowStyle="None" Icon="/Bullseye;component/Images/icon.ico">
     <Grid>
         <StackPanel x:Name="Menu"  Visibility="Visible">
             <StackPanel.Background>

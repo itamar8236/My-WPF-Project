@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access" MembersFormat="FullSignature">
-  <Class Name="WpfApplication1.CannonBall">
+  <Class Name="Bullseye.CannonBall">
     <Position X="0.5" Y="0.5" Width="6.25" />
     <TypeIdentifier>
       <HashCode>AAAAIgAAAAAAEAAQIAAAIgQAIAAAACCIAAAAAAAABAA=</HashCode>
       <FileName>Classes\CannonBall.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="WpfApplication1.CannonClass">
+  <Class Name="Bullseye.CannonClass">
     <Position X="0.5" Y="9.75" Width="6.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAEgAAAABAAQQAAAMCUKAAAZgAAAAAAAAAA=</HashCode>
       <FileName>Classes\CannonClass.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="WpfApplication1.Growing">
+  <Class Name="Bullseye.Growing">
     <Position X="3.5" Y="17.5" Width="3.75" />
     <Compartments>
       <Compartment Name="Private" Collapsed="true" />
@@ -24,21 +24,21 @@
       <FileName>Classes\Growing.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="WpfApplication1.InformationOfShot">
+  <Class Name="Bullseye.InformationOfShot">
     <Position X="0.5" Y="17.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAAEAAAAAIAAAAAAAAEAAAAAAAAAAEAA=</HashCode>
       <FileName>Classes\InformationOfShot.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="WpfApplication1.Target">
+  <Class Name="Bullseye.Target">
     <Position X="0.5" Y="5" Width="6.25" />
     <TypeIdentifier>
       <HashCode>AAEAEAAAAAIAAAAAAoAAYgIBEAIIAAAAAAAgAAEQIAA=</HashCode>
       <FileName>Classes\Target.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="WpfApplication1.GameMode" BaseTypeListCollapsed="true">
+  <Class Name="Bullseye.GameMode" BaseTypeListCollapsed="true">
     <Position X="7" Y="9" Width="4.75" />
     <TypeIdentifier>
       <HashCode>yAQAIAIAAAAAAERAAAIAAAAACAENFRGAAChAAFAUAww=</HashCode>
@@ -46,7 +46,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="WpfApplication1.Instructions" BaseTypeListCollapsed="true">
+  <Class Name="Bullseye.Instructions" BaseTypeListCollapsed="true">
     <Position X="7" Y="0.5" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAAAAAAAAAACAAAAAEIQBAAAAAAAAA=</HashCode>
@@ -54,7 +54,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="WpfApplication1.MainWindow" BaseTypeListCollapsed="true">
+  <Class Name="Bullseye.MainWindow" BaseTypeListCollapsed="true">
     <Position X="0.5" Y="14.5" Width="6.25" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAAIEAAEAAAAAAAAABAAAAAAAAAAAAAABAAA=</HashCode>
@@ -62,7 +62,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="WpfApplication1.PickLevel" BaseTypeListCollapsed="true">
+  <Class Name="Bullseye.PickLevel" BaseTypeListCollapsed="true">
     <Position X="7" Y="3.25" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAIAAAAAAAgAAAAAAMAAAAAAAIQAAA=</HashCode>
@@ -70,7 +70,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="WpfApplication1.TbAbout" BaseTypeListCollapsed="true">
+  <Class Name="Bullseye.TbAbout" BaseTypeListCollapsed="true">
     <Position X="7" Y="6" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AAACAAgAIAAAAAAAAAAACAAAIAAAAAAAAAAgAACAAAA=</HashCode>
