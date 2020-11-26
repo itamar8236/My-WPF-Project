@@ -1,16 +1,39 @@
 ﻿namespace WpfApplication1
 {
+    /// <summary>
+    /// Class for the current shot information.
+    /// </summary>
     public class InformationOfShot
     {
-        public CannonBall ShotBall;//הכדור
+        /// <summary>
+        /// The current cannon ball
+        /// </summary>
+        public CannonBall ShotBall;
 
-        public double BallpxEnd;// שיעור האיקס של סוף היריה
-        public double BallpyEnd;//שיעור הווי של סוף היריה
-        public double BallpzEnd;//שיעור הזד של סוף היריה
+        /// <summary>
+        /// The ball's ending X position
+        /// </summary>
+        public double BallpxEnd;
+        /// <summary>
+        /// The ball's ending Y position
+        /// </summary>
+        public double BallpyEnd;
+        /// <summary>
+        /// The ball's ending Z position
+        /// </summary>
+        public double BallpzEnd;
 
-        public double MaxHeight;//הגובה המקסימלי אליו מגיע הכדור
-        public double AllshotDuration;//הזמן שך כל היריה
-        public double DurationTillMaxHeight;//הזמן שלוקח לכדור להגיע לגובה המקסימלי
-        
+        /// <summary>
+        /// Max height of the ball
+        /// </summary>
+        public double MaxHeight;
+        /// <summary>
+        /// Duration for the entire shot.
+        /// </summary>
+        public double AllshotDuration;
+        /// <summary>
+        /// Duration until the ball reach max height
+        /// </summary>
+        public double DurationTillMaxHeight;
     }
 }

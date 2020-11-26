@@ -4,12 +4,26 @@ using System.Windows.Media.Animation;
 
 namespace WpfApplication1
 {
+    /// <summary>
+    /// Class for increaing text animation on textblocks.
+    /// </summary>
     class Growing
     {
-        private static DoubleAnimation anim= new DoubleAnimation();//אנימציה
-        private static double OrigFontSize, MaxFontSize;//מקסימום ומינימום גודל טקסט
+        /// <summary>
+        /// Animation.
+        /// </summary>
+        private static DoubleAnimation anim= new DoubleAnimation();
+        /// <summary>
+        /// Original and maximum text size.
+        /// </summary>
+        private static double OrigFontSize, MaxFontSize;
 
-        //אירוע זה מגדיל את התווית הנבחרת כאשר העכבר עליו
+        /// <summary>
+        /// Increasing the text in the text block.
+        /// </summary>
+        /// <param name="tb">The text block.</param>
+        /// <param name="to">Max size.</param>
+        /// <param name="time">Time of animation.</param>
         public static void Grow_Up(TextBlock tb, double to, double time)
         {
             OrigFontSize = tb.FontSize;
@@ -21,7 +35,10 @@ namespace WpfApplication1
             tb.BeginAnimation(TextBlock.FontSizeProperty, anim);
         }
 
-        //אירוע זה מקטין את התווית הנבחרת כאשר העכבר עזב אותו
+        /// <summary>
+        /// Decreasing the text in the text block back to the original size.
+        /// </summary>
+        /// <param name="tb">The text block.</param>
         public static void Grow_Down(TextBlock tb)
         {
             anim.From = tb.FontSize;
