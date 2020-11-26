@@ -7,6 +7,10 @@ namespace WpfApplication1
 {
     /// <summary>
     /// Interaction logic for Instructions.xaml
+    /// In the entire project and in all models:
+    /// Transform.Children[0] - scale tranformation/animation.
+    /// Transform.Children[1] - rotation tranformation/animation.
+    /// Transform.Children[2] - location tranformation/animation.
     /// </summary>
     public partial class Instructions : Window
     {

@@ -116,6 +116,7 @@ namespace WpfApplication1
         }
         /// <summary>
         /// Angle rotation animation on the barrel.
+        /// The barrel's center Y axis of rotation is 1/4 from the back of the barrel.
         /// </summary>
         /// <param name="to">The end angle in degrees. fully up is -90 deg, straight down is 0 deg.</param>
         /// <param name="time">Time for the animaton</param>

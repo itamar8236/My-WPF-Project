@@ -11,6 +11,10 @@ namespace WpfApplication1
     {
         /// <summary>
         /// The instruction window.
+        /// In the entire project and in all models:
+        /// Transform.Children[0] - scale tranformation/animation.
+        /// Transform.Children[1] - rotation tranformation/animation.
+        /// Transform.Children[2] - location tranformation/animation.
         /// </summary>
         Instructions inst = new Instructions();
 

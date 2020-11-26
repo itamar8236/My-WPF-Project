@@ -11,146 +11,234 @@ namespace WpfApplication1
 {
     /// <summary>
     /// Interaction logic for Window1.xaml
+    /// In the entire project and in all models:
+    /// Transform.Children[0] - scale tranformation/animation.
+    /// Transform.Children[1] - rotation tranformation/animation.
+    /// Transform.Children[2] - location tranformation/animation.
     /// </summary>
     public partial class GameMode : Window
     {
-        //hi there
-        //בכל הפרויקט: סקייל 0 זווית 1 מיקום 2
+        /// <summary>
+        /// The level. defult is level one.
+        /// </summary>
+        public int level = 1;
+        /// <summary>
+        /// The number of shots the player have.
+        /// defult is 10 for training level, in that level the number of shots allowed, that decreasing, after the pile empty, is 0.
+        /// </summary>
+        public int NumOfShotsAllowd = 10;
+        /// <summary>
+        /// The number of seconds the player have
+        /// </summary>
+        public int NumOfSecsAllowd = 0;
+        /// <summary>
+        /// Number of targets in the game.
+        /// </summary>
+        public int numOftargets = 5;
+        /// <summary>
+        /// Starting speed of the shot
+        /// </summary>
+        public double speed = 150;
+        /// <summary>
+        /// First target's speed. 
+        /// </summary>
+        public double VfirstTarget = 15;
+        /// <summary>
+        /// Game mode type. true if this is training and false otherwise.
+        /// </summary>
+        public bool IsTraining = false;
 
-        public int level = 1;//שלב
-        public int NumOfShotsAllowd = 10;//למקרה שזה אימונים ואז תמיד ימלא 10-0=10 בערימה מספר היריות שיש לו לשלב 
-        public int NumOfSecsAllowd = 0;//כמה שניות יש לו לשלב
-        public int numOftargets = 5;//מספר מטרות
-        public double speed = 150;//מהירות היריה(ההתחלתית)
-        public double VfirstTarget = 15;//מהירות המטרה הראשונה(הכי מהירה)
-        public bool IsTraining = false;//אם זה אימונים ואז לא יכול להפסיד
+        /// <summary>
+        /// The number of balls currently in the pile.
+        /// </summary>
+        private int NumOfBallsInPile = 10;
+        /// <summary>
+        /// Number of seconds passes from the beggining of the game. 
+        /// </summary>
+        private int ticknum = 0;
+        /// <summary>
+        /// Cannon state. true if cannon is currently moving
+        /// </summary>
+        private bool AllCannonAlreadyMove = false;
+        /// <summary>
+        /// Barrel state. true if barrel is currently moving
+        /// </summary>
+        private bool BarrelMove = false;
+        /// <summary>
+        /// Checking. true if now all actions from player should be locked.
+        /// </summary>
+        private bool LockEvrything = false;
+        /// <summary>
+        /// Window state. true if window already opened (and lowered down)
+        /// </summary>
+        private bool alreadyOpen = false;
+        /// <summary>
+        /// Sound
+        /// </summary>
+        private MediaPlayer Fire = new MediaPlayer();
+        /// <summary>
+        /// Timer
+        /// </summary>
+        private DispatcherTimer timer = new DispatcherTimer();
+        /// <summary>
+        /// The balls in the pile.
+        /// </summary>
+        private CannonBall[] CannonBallSInPile = new CannonBall[10];
+        /// <summary>
+        /// The targets in the game
+        /// </summary>
+        private Target[] targets;
+        /// <summary>
+        /// The cannon
+        /// </summary>
+        private CannonClass Cannon;
+        /// <summary>
+        /// Number of shots fired.
+        /// </summary>
+        private int NumofShots = 0;
 
-        private int NumOfBallsInPile = 10;//מספר הכדורים בכל רגע בערימה
-        private int ticknum = 0;//כמות השניות שעברו
-        private bool AllCannonAlreadyMove = false; //בןדק אם התותח זז
-        private bool BarrelMove = false;//בןדק אם הקנה זז
-        private bool LockEvrything = false;//בודק אם צריך לנעול כל תזוזה של הצשתמש
-        private bool alreadyOpen = false;//בודק אם החלון כבר עלה
-        private MediaPlayer Fire = new MediaPlayer();//סאונד
-        private DispatcherTimer timer = new DispatcherTimer();//טיימר
-        private CannonBall[] CannonBallSInPile = new CannonBall[10];//מערך הכדורים בערימה
-        private Target[] targets;//מערך מטרות
-        private  CannonClass Cannon;//תותח 
-        private int NumofShots = 0;//כמה יריות ירה
-
+        /// <summary>
+        /// Constructor for Game mode
+        /// </summary>
         public GameMode()
         {
             InitializeComponent();
         }
-       
-        private void startAnimation(object sender, EventArgs e)//מאתחל את המשחק
+
+        /// <summary>
+        /// Starts the game in cannon pile and target's animation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void startAnimation(object sender, EventArgs e)
         {
-            if (!alreadyOpen)//למקרה שהחלון נפתח יותר מפעם אחת, כגון "יורד" למטה ו"עולה" חזרה
+            if (!alreadyOpen)
             {
                 alreadyOpen = true;
 
-                //מערך מטרות
                 targets = new Target[numOftargets];
-                targets[0] = new Target(AllTargetModel, 0, AllTargetModel.Bounds.SizeY / 2, -100, 60, -60, VfirstTarget);//שם מטרה ראשונה במקום
+                //Starts the first target (always exsits) 60 distance and goes from -100 to 100 in X axis.
+                targets[0] = new Target(AllTargetModel, 0, AllTargetModel.Bounds.SizeY / 2, -100, 60, -60, VfirstTarget);
 
-                //התותח במשחק
-                Cannon = new CannonClass(AllCannonModel, AllBarrelModel, 110+(50*(numOftargets-1)), speed, this);
+                //The cannon. if there's no physics the shots goes to 110 after the last target.
+                Cannon = new CannonClass(AllCannonModel, AllBarrelModel, 110 + (50 * (numOftargets - 1)), speed, this);
 
-                //יוצר מטרות
+                //Creating the targets
                 for (int i = 1; i < targets.Length; i++)
                 {
-                    double z = targets[i - 1].PosZ - 50;//כל מטרה רחוקה ב50
+                    //Every target's distance from previos target is 50.
+                    double z = targets[i - 1].PosZ - 50;
                     double from, to, v;
+                    //Every second target starts in different location and direction.
+                    //All target's route increase by 20 to each size (40 in X axis total)
                     if (i % 2 == 1)
                     {
-                        from = (targets[i - 1].FromX + 20) * -1;//\כל מטרה זזה עוד 20 ימינה ושמאלה
-                        to = (targets[i - 1].ToX * -1) + 20;    ///
+                        from = (targets[i - 1].FromX + 20) * -1;
+                        to = (targets[i - 1].ToX * -1) + 20;
                     }
                     else
                     {
                         from = (targets[i - 1].FromX * -1) + 20;
                         to = (targets[i - 1].ToX + 20) * -1;
                     }
+                    //Target's speed decreasing  by 10% each target.
                     v = targets[i - 1].V * 0.9;
                     targets[i] = new Target(AllTargetModel.Clone(), 0, targets[0].PosY, z, from, to, v);
+                    //Adding target to the screen
                     scene.Children.Add(targets[i].TargetModel);
-                } 
+                }
 
-                //מתחיל אנימציה של מטרות לנצח
+                //Starts targets's animation
                 for (int i = 0; i < targets.Length; i++)
                     targets[i].AnimForever();
 
 
-                // יוצר מערך כדורים ומסדר בהתחלה בערימה
+                //Creating the pile of balls.
                 NumOfBallsInPile = Math.Min(10, NumOfShotsAllowd);
                 CreateBallsInPileArr(NumOfBallsInPile);
 
-                //מאתחל טיימר 
+                //Starts timer.
                 timer.Tick += Timer_Tick;
                 timer.Interval = TimeSpan.FromSeconds(1);
                 timer.Start();
             }
         }
 
-        private void Pressed(object sender, KeyEventArgs e)//מקש נלחץ
+        /// <summary>
+        /// Key pressed function. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Pressed(object sender, KeyEventArgs e)
         {
-            
+
             if (!AllCannonAlreadyMove && !LockEvrything && !BarrelMove)
             {
                 switch (e.Key)
                 {
-                    case Key.Right://מזיז את התותח ימינה
+                    //Moving the entire cannon right.
+                    case Key.Right:
                         {
+                            //cannon can't be fully right.
                             Cannon.RotateAllCannon(90 + 0.1, 4);
                             AllCannonAlreadyMove = true;
                             break;
                         }
-                    case Key.Left://מזיז את התותח שמאלה
+                    //Moving the entire cannon left.
+                    case Key.Left:
                         {
-                           
+                            //cannon can't be fully left.
                             Cannon.RotateAllCannon(270 - 0.1, 4);
                             AllCannonAlreadyMove = true;
                             break;
                         }
-                    case Key.Up://מזיז את הקנה למעלה
-                        {
-                            if(level == 2)
-                            {
-                            Cannon.RotateBarrel(-45, 4);
-                            BarrelMove = true;
-                            }
-                            break;
-                        }
-                    case Key.Down://מזיז את הקנה למטה
+                    //Moving the barrel up.
+                    case Key.Up:
                         {
                             if (level == 2)
                             {
-                                Cannon.RotateBarrel(-0.1, 4);//למנוע באג כאשר הקנה הכי למטה
+                                Cannon.RotateBarrel(-45, 4);
                                 BarrelMove = true;
                             }
                             break;
                         }
-                    case Key.Space://יורה
+                    //Moving the barrel down.
+                    case Key.Down:
                         {
-                            if(!IsTraining)
+                            if (level == 2)
+                            {
+                                //barrel can't be fully back down, creates a bug.
+                                Cannon.RotateBarrel(-0.1, 4);
+                                BarrelMove = true;
+                            }
+                            break;
+                        }
+                    //Fires.
+                    case Key.Space:
+                        {
+                            if (!IsTraining)
                                 NumofShots++;
 
-                            if (!IsTraining && NumofShots > NumOfShotsAllowd)//בודק אם הפסיד
+                            //checks if the player loses
+                            if (!IsTraining && NumofShots > NumOfShotsAllowd)
                             {
                                 EndGame();
                                 break;
                             }
-                            //מפעיל רעש יריה
+
+                            //Starts fire sound.
                             Fire.Open(new Uri(@".\sounds\Tank Firing-SoundBible.com-998264747.mp3", UriKind.Relative));
                             Fire.Volume = 1;
                             Fire.Play();
 
+                            //Checking the shot's information
+                            InformationOfShot CurShotInfo = CheckIfHit();
 
-                            InformationOfShot CurShotInfo = CheckIfHit();//מידע על היריה הנוכחית
-
+                            //Adding current ball to the screen.
                             scene.Children.Add(CurShotInfo.ShotBall.ballModel);
-                            //אנימציית היריה
-                            if(level == 1)
+
+                            //Starts shot animation
+                            if (level == 1)
                             {
                                 CurShotInfo.ShotBall.MoveX(CurShotInfo.BallpxEnd, CurShotInfo.AllshotDuration);
                                 CurShotInfo.ShotBall.MoveZ(CurShotInfo.BallpzEnd, CurShotInfo.AllshotDuration);
@@ -159,7 +247,8 @@ namespace WpfApplication1
                             {
                                 CurShotInfo.ShotBall.MoveX(CurShotInfo.BallpxEnd, CurShotInfo.AllshotDuration);
 
-                                if (CurShotInfo.AllshotDuration > CurShotInfo.DurationTillMaxHeight)//בודק האם יתחיל "ליפול"
+                                //Checking if the ball will pass it's max height.
+                                if (CurShotInfo.AllshotDuration > CurShotInfo.DurationTillMaxHeight)
                                     CurShotInfo.ShotBall.MoveY(CurShotInfo.MaxHeight, CurShotInfo.DurationTillMaxHeight, CurShotInfo.AllshotDuration - CurShotInfo.DurationTillMaxHeight, CurShotInfo.BallpyEnd);
                                 else
                                     CurShotInfo.ShotBall.MoveY(CurShotInfo.MaxHeight, CurShotInfo.AllshotDuration, 0, CurShotInfo.BallpyEnd);
@@ -167,22 +256,22 @@ namespace WpfApplication1
                                 CurShotInfo.ShotBall.MoveZ(CurShotInfo.BallpzEnd, CurShotInfo.AllshotDuration);
                             }
 
-                                //מעדכן ערימה של הכדורים
-                                if (NumOfBallsInPile >= 1)
-                                    RemoveFromPile();
-                                if((IsTraining && NumOfBallsInPile == 0) || (NumOfShotsAllowd - NumofShots > 0 && NumOfBallsInPile == 0))
-                                    BallSInPile(Math.Min(10, NumOfShotsAllowd - NumofShots));
-
-                          
+                            //Updates pileof bals.
+                            if (NumOfBallsInPile >= 1)
+                                RemoveFromPile();
+                            if ((IsTraining && NumOfBallsInPile == 0) || (NumOfShotsAllowd - NumofShots > 0 && NumOfBallsInPile == 0))
+                                BallSInPile(Math.Min(10, NumOfShotsAllowd - NumofShots));
                             break;
                         }
+                    //Cheat for checking.
                     case Key.Enter:
                         {
-                            for (int i = 0; i < targets.Length; i++)//צ'יט
+                            for (int i = 0; i < targets.Length; i++)
                                 targets[i].StopAimation();
-                            
+
                             break;
                         }
+                    //Exit game.
                     case Key.Escape:
                         {
                             Application.Current.Shutdown();
@@ -191,84 +280,114 @@ namespace WpfApplication1
                 }
             }
         }
-        public InformationOfShot CheckIfHit()//בודק ומחזיר מידע על היריה
+
+        /// <summary>
+        /// This function checks the information of the shot
+        /// </summary>
+        /// <returns>All the shot information in InformationOfShot object</returns>
+        public InformationOfShot CheckIfHit()
         {
-            InformationOfShot ShotInfo = new InformationOfShot();//מידע על יריה
-            double pxStart = 0;//\
-            double pyStart = 0;// |מיקום התחלתי של הכדור
-            double pzStart = 0;///
+            InformationOfShot ShotInfo = new InformationOfShot();
 
-            bool ishit = false;//האם הכדור יפגע
+            //The ball's starting position
+            double pxStart = 0;
+            double pyStart = 0;
+            double pzStart = 0;
 
-            double EndPosXTarget;//מיקום האיקס של סוף היריה עד המטרה, של המטרה הנוכחית בבדיקה
-            double time = 0;//זמן היריה עד המטרה הנוכחית בבדיקה
+            //If the balll will hit a target
+            bool ishit = false;
+
+            //The end X position of target in check
+            double EndPosXTarget;
+            //The time from now until thr ball reaches the X's postion of target in check.
+            double time = 0;
 
             double a, b, x;
-            a = Cannon.GetCurAllCannonAngle() * Math.PI / 180;//זויות כל התותח
-            b = Cannon.GetCurBarrelAngle() * Math.PI / 180;//זווית הקנה
+            //The entire cannon current angle in Rad.
+            a = Cannon.GetCurAllCannonAngle() * Math.PI / 180;
+            //The barrel current angle in Rad.
+            b = Cannon.GetCurBarrelAngle() * Math.PI / 180;
+            //Barrel's width
             x = Cannon.BarrelSizeZ;
 
-            double Vx, V0y;                    //\
-            Vx = Cannon.V0 * Math.Cos(b); // |לשלב 2
-            V0y = Cannon.V0 * Math.Sin(b);///
+            //For level 2:
+            double Vx, V0y;
+            //The speed in X axis
+            Vx = Cannon.V0 * Math.Cos(b);
+            //The starting speed in Y axis.
+            V0y = Cannon.V0 * Math.Sin(b);
 
-            double AllShotDisZ;//מיקום זד הסופי של הכדור בכל היריה
+            //The ball's ending Z position.
+            double AllShotDisZ;
 
             if (level == 1)
             {
-                pyStart = 0.9 + Cannon.PosY;//גובה בתוך הקנה
+                //0.9 is the height of the inside of the barrel.
+                pyStart = 0.9 + Cannon.PosY;
                 ShotInfo.BallpyEnd = pyStart;
-                AllShotDisZ = targets[targets.Length - 1].PosZ - 10;//רחוק יותר מהמטרה האחרונה
+                //Further than last target.
+                AllShotDisZ = targets[targets.Length - 1].PosZ - 10;
 
-                ShotInfo.AllshotDuration = Cannon.DisOfShotNophys / (Cannon.V0 * Math.Cos((Cannon.GetCurAllCannonAngle() * Math.PI) / 180));//היריה על פי מהירות התחלתית קבועה ותמיד מגיעה לDis...
+                //Time = Distance / Speed. (Z axis)
+                ShotInfo.AllshotDuration = Cannon.DisOfShotNophys / (Cannon.V0 * Math.Cos((Cannon.GetCurAllCannonAngle() * Math.PI) / 180));
             }
             else
             {
-                //שם כדור בקצה הקנה, מסובך בגלל 2 מרכזי סיבוב שונים                
+                //Starting the ball in the end of the barrel. 3D trigonometry.
+                //The barrel's center Y axis of rotation is 1/4 from the back of the barrel.              
                 pxStart = ((3 * x / 4) * Math.Cos(b) - (x / 4)) * Math.Sin(a);
                 pyStart = Cannon.PosY + 0.9 + (3 * x / 4) * Math.Sin(b);
                 pzStart = -((3 * x / 4) * Math.Cos(b) * Math.Cos(a) - ((x / 4) * Math.Cos(a)));
 
+                double A, B, C;
 
-                //חישוב הזמן של היריה
-                double A, B, C;//מקדמי משוואה  ריבועית
-                               //לפי הנוסחה< חישוב של הזמן הכולל של היריה x = x0 + v0t + 0.5at^2
+                //X = X0 + V0 * t + 0.5 * a * t^2.
+                //g = 9.8
                 A = 9.8 / 2;
                 B = -V0y;
                 C = -pyStart;
 
+                //calulating the duration by taking the positive root of the equation.
                 ShotInfo.AllshotDuration = (-B + Math.Sqrt(B * B - 4 * A * C)) / (2 * A);
 
-                ShotInfo.DurationTillMaxHeight = V0y / 9.8;//על פי הנוסחה v=v0+at
-                ShotInfo.MaxHeight = pyStart + (V0y * ShotInfo.DurationTillMaxHeight) + (0.5 * (-9.8) * Math.Pow(ShotInfo.DurationTillMaxHeight, 2));//על פי הנוסחה x = x0 + v0t + 0.5at^2
+                //V = V0 + a * t. To calculate max height is when V = 0.
+                ShotInfo.DurationTillMaxHeight = V0y / 9.8;
+                //X = X0 + V0 * t + 0.5 * a * t^2.
+                ShotInfo.MaxHeight = pyStart + (V0y * ShotInfo.DurationTillMaxHeight) + (0.5 * (-9.8) * Math.Pow(ShotInfo.DurationTillMaxHeight, 2));
+                //2D trigonometry.
                 AllShotDisZ = pzStart - (Vx * ShotInfo.AllshotDuration) * Math.Cos(a);
-                
+
             }
-            int i;//אינדקס מטרה בבדיקה
+            int i;
             for (i = 0; i < targets.Length && !ishit && Math.Abs(targets[i].PosZ) < Math.Abs(AllShotDisZ); i++)
             {
-                if(!targets[i].HasFallen)
+                //checking if target has not already fallen.
+                if (!targets[i].HasFallen)
                 {
-                    if(level == 1)
+                    if (level == 1)
                     {
                         ShotInfo.BallpxEnd = Math.Abs(targets[i].PosZ) * Math.Tan(a);
                         ShotInfo.BallpyEnd = pyStart;
 
-                        time = Math.Abs(targets[i].PosZ) / (Cannon.V0 * Math.Cos(a));//דרך חלקי מהירות
+                        //Time = Distance / Speed (Z axis).
+                        time = Math.Abs(targets[i].PosZ) / (Cannon.V0 * Math.Cos(a));
                     }
                     else
                     {
+                        //2D trigonometry.
                         ShotInfo.BallpxEnd = Math.Tan(a) * Math.Abs(targets[i].PosZ - pzStart);
 
-                        //מחשב מרחק דו מימדי בין מיקום סופי להתחלה, ומחלק במהירות לקבל זמן
+                        //Time = |Distance| / Speed. |Distance| = air 2D distance between start pos and end.
                         time = Math.Sqrt(Math.Pow(Math.Abs(targets[i].PosZ - pzStart), 2) + Math.Pow(ShotInfo.BallpxEnd, 2)) / Vx;
 
-                        ShotInfo.BallpyEnd = pyStart + V0y * time + 0.5 * (-9.8) * Math.Pow(time, 2); //על פי הנוסחה x = x0 + v0t + 0.5at^2
+                        //X = X0 + V0 * t + 0.5 * a * t^2.
+                        ShotInfo.BallpyEnd = pyStart + V0y * time + 0.5 * (-9.8) * Math.Pow(time, 2);
                     }
 
                     ShotInfo.BallpzEnd = targets[i].PosZ;
 
-                    EndPosXTarget = targets[i].GetCurXPos();//מחשב מיקום איקס סופי של המטרה
+                    //Claculating target's ending X position
+                    EndPosXTarget = targets[i].GetCurXPos();
                     if (targets[i].IsGoingRight)
                     {
                         EndPosXTarget += targets[i].V * time;
@@ -287,14 +406,17 @@ namespace WpfApplication1
                         }
                     }
 
-                    double R, D;//רדיוס המטרה ומרחק הכדור ממנה
+                    double R, D;
+                    //Target's radius
                     R = targets[i].TargetModel.Bounds.SizeX / 2;
+                    //Distance between the ball and the target as he reach the target's Z position.
                     D = Math.Sqrt(Math.Pow(ShotInfo.BallpxEnd - EndPosXTarget, 2) + Math.Pow(ShotInfo.BallpyEnd - targets[i].PosY, 2));
                     ishit = D <= R;
                 }
             }
             if (ishit)
             {
+                //Hitting ball.
                 ShotInfo.AllshotDuration = time;
                 targets[i - 1].HittedAndNeedToFall = true;
                 LockEvrything = true;
@@ -302,7 +424,6 @@ namespace WpfApplication1
             else
             {
                 ShotInfo.BallpzEnd = AllShotDisZ;
-                //לעדכן את כל השדות ליריה שלא פוגעת.
                 if (level == 1)
                     ShotInfo.BallpxEnd = Cannon.DisOfShotNophys * Math.Tan(a);
                 else
@@ -311,132 +432,166 @@ namespace WpfApplication1
                     ShotInfo.BallpxEnd = pxStart + (Vx * ShotInfo.AllshotDuration) * Math.Sin(a);
                 }
             }
-                
+
             ShotInfo.ShotBall = new CannonBall(AllBallModel.Clone(), pxStart, pyStart, pzStart, ishit);
             ShotInfo.ShotBall.game = this;
             return ShotInfo;
         }
-        
-        private void Timer_Tick(object sender, EventArgs e)//טיימר כל שניה
+
+        /// <summary>
+        /// The timer Tick. happens every second.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Timer_Tick(object sender, EventArgs e)
         {
 
             ticknum++;
-            //מראה זמן
+            //Update time text box.
             Time.Text = (ticknum / 600).ToString() + (ticknum / 60).ToString() + ":" + (ticknum % 60 / 10).ToString() + (ticknum % 60 % 10).ToString();
-            
-            //בודק אם הפסיד
+
+            //Check if the player loses.
             if (!IsTraining && ticknum == NumOfSecsAllowd)
                 EndGame();
         }
-        
 
-        private void Released(object sender, KeyEventArgs e)//מקש משתחרר
+        /// <summary>
+        /// Key released
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Released(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Right || e.Key == Key.Left)//מפסיק אנימציה של התותח
+            //Stops cannon animation
+            if (e.Key == Key.Right || e.Key == Key.Left)
             {
                 AllCannonAlreadyMove = false;
                 Cannon.StopAllCannon();
             }
-            if(e.Key == Key.Up || e.Key == Key.Down)//מפסיק אנימציה של הקנה
+            //Stops barrel animation
+            if (e.Key == Key.Up || e.Key == Key.Down)
             {
                 BarrelMove = false;
                 Cannon.StopBarrel();
             }
         }
 
-        private void Click(object sender, MouseButtonEventArgs e)//שם מידע בלייבל
+        /// <summary>
+        /// Function for checking information. not-needed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Click(object sender, MouseButtonEventArgs e)
         {
             label.Content = "Barrel Angle: " + Cannon.GetCurBarrelAngle().ToString();
         }
-        public void HitTarget()//פגיעה במטרה
+
+        /// <summary>
+        /// Hitting ball reaches the target
+        /// </summary>
+        public void HitTarget()
         {
-            //מפעיל רעש של מטרה נפגעת
+            //Starts explotion sound.
             Fire.Open(new Uri(@".\sounds\Big Explosion Effect Video Mp4 HD Sound.mp3", UriKind.Relative));
             Fire.Volume = 1;
             Fire.Play();
 
-            //מוצא את המטרה שצריך להפיל
+            //Finding the target
             int targetNum;
             bool found = false;
             for (targetNum = 0; targetNum < targets.Length && !found; targetNum++)
                 found = targets[targetNum].HittedAndNeedToFall;
             targetNum--;
 
-            targets[targetNum].StopAimation();//עוצר
+            //Stops the target's animaton
+            targets[targetNum].StopAimation();
 
             targets[targetNum].HasFallen = true;
             targets[targetNum].HittedAndNeedToFall = false;
-            
-            targets[targetNum].Rotate(-90, 1);//מפיל
 
-            
-            //בודק אם ניצח
+            //Starts falling animation
+            targets[targetNum].Rotate(-90, 1);
+
+            //Cehck if the player wins.
             bool won = targets[0].HasFallen;
             for (int i = 1; i < targets.Length && won; i++)
                 won = targets[i].HasFallen;
-            
+
             if (won)
                 EndGame();
             else
                 LockEvrything = false;
-
-
         }
-        public void BallSInPile(int sum)//שם כדורים בערימה ליד התותח
+
+        /// <summary>
+        /// Adding balls to pile in the screen
+        /// </summary>
+        /// <param name="sum">The number of balls. cannot be more than 10.</param>
+        public void BallSInPile(int sum)
         {
-            for(int i = 0; i < sum; i++)
+            for (int i = 0; i < sum; i++)
                 scene.Children.Add(CannonBallSInPile[i].ballModel);
 
             NumOfBallsInPile = sum;
         }
-        public void RemoveFromPile()//מסיר כדור מהערימה
+        /// <summary>
+        /// Remove one ball from the pile.
+        /// </summary>
+        public void RemoveFromPile()
         {
             NumOfBallsInPile--;
             scene.Children.Remove(CannonBallSInPile[NumOfBallsInPile].ballModel);
         }
-        public void CreateBallsInPileArr(int sum)//מייצר מערך כדורים בערימה
+        /// <summary>
+        /// Creating Balls in pile.
+        /// </summary>
+        /// <param name="sum">The number of balls. cannot be more than 10.</param>
+        public void CreateBallsInPileArr(int sum)
         {
             double size = AllBallModel.Bounds.SizeX;
-            for ( int i = 0; i < sum; i++)
+            for (int i = 0; i < sum; i++)
             {
                 switch (i)
                 {
                     case 9:
                         CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + size, size * 2 + size / 2, -size, false);
-                            break;
+                        break;
                     case 8:
                         CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + size, size + size / 2, -size * 1.5, false);
-                            break;
+                        break;
                     case 7:
-                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size * 1.5), size + size / 2, -size / 2,false);
-                            break;
+                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size * 1.5), size + size / 2, -size / 2, false);
+                        break;
                     case 6:
-                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size / 2), size + size / 2, -size / 2,false);
-                            break;
+                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size / 2), size + size / 2, -size / 2, false);
+                        break;
                     case 5:
-                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + size, size / 2, -size * 2,false);
-                            break;
+                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + size, size / 2, -size * 2, false);
+                        break;
                     case 4:
-                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size * 1.5), size / 2, -size,false);
-                            break;
+                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size * 1.5), size / 2, -size, false);
+                        break;
                     case 3:
-                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size / 2), size / 2, -size,false);
-                            break;
+                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size / 2), size / 2, -size, false);
+                        break;
                     case 2:
-                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size * 2), size / 2, 0,false);
-                            break;
+                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + (size * 2), size / 2, 0, false);
+                        break;
                     case 1:
-                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + size, size / 2, 0,false);
-                            break;
+                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5 + size, size / 2, 0, false);
+                        break;
                     case 0:
-                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5, AllBallModel.Bounds.SizeY / 2, 0,false);
-                            break;
+                        CannonBallSInPile[i] = new CannonBall(AllBallModel.Clone(), 5, AllBallModel.Bounds.SizeY / 2, 0, false);
+                        break;
                 }
                 scene.Children.Add(CannonBallSInPile[i].ballModel);
             }
         }
-        
-        private void EndGame()//סיום המשחק
+
+        /// <summary>
+        /// Ending the game
+        /// </summary>
+        private void EndGame()
         {
             quit.Visibility = Visibility.Visible;
             continueGame.Visibility = Visibility.Visible;
@@ -445,13 +600,13 @@ namespace WpfApplication1
 
             LockEvrything = true;
 
-            if((NumofShots <= NumOfShotsAllowd && ticknum < NumOfSecsAllowd) || (IsTraining))
+            if ((NumofShots <= NumOfShotsAllowd && ticknum < NumOfSecsAllowd) || (IsTraining))
                 Massege.Text = "You Win!";
             else
             {
                 Massege.Text = "You lost!";
 
-                int count = 0;//כמה מטרות הפיל
+                int count = 0;
                 for (int i = 0; i < targets.Length; i++)
                     if (targets[i].HasFallen)
                         count++;
@@ -462,24 +617,38 @@ namespace WpfApplication1
 
                 Massege.Text += "\nYou've hit " + count.ToString() + " targets, out of " + targets.Length.ToString();
             }
-            
+
             Growing.Grow_Up((TextBlock)Massege, 50, 0.5);
         }
+
+        /// <summary>
+        /// This function increases the text when mouse is entering.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameModeMouseEnter(object sender, MouseEventArgs e)//עכבר נכנס ל continue או quit
         {
             Growing.Grow_Up((TextBlock)sender, 15, 0.5);
         }
-
+        /// <summary>
+        /// This function decreasing the text when mouse is leaving.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GameModeMouseLeave(object sender, MouseEventArgs e)//עכבר יוצא ל continue או quit
         {
             Growing.Grow_Down((TextBlock)sender);
         }
 
-        private void GameModeMouseDown(object sender, MouseButtonEventArgs e)//עכבר לוחץ על continue או quit
+        /// <summary>
+        /// Continue the game or shutting down according to the player's choice.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameModeMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.Source == continueGame)
             {
-                //לא עובד
                 PickLevel pick = new PickLevel();
                 pick.Show();
                 this.Close();
