@@ -24,6 +24,7 @@ namespace WpfApplication1
     /// </summary>
     public partial class GameMode : Window
     {
+        //hi
         //בכל הפרויקט: סקייל 0 זווית 1 מיקום 2
 
         public int level = 1;//שלב
