@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1"   
         mc:Ignorable="d"
-        Title="GameMode" Height="700" Width="800" WindowState="Maximized" WindowStyle="None" Activated="startAnimation" KeyDown="Pressed" KeyUp="Released">
+        Title="GameMode" Height="700" Width="800" WindowState="Maximized" WindowStyle="None" Activated="startAnimation" KeyDown="Pressed" KeyUp="Released" Icon="/WpfApplication1;component/Images/icon.jpg">
     <Window.Background>
         <ImageBrush ImageSource="/WpfApplication1;component/Images/sky1.jpg"/>
     </Window.Background>
