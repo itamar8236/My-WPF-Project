@@ -67,7 +67,7 @@ namespace Bullseye
                 }
                 else
                 {
-                    Information.Text += "\nThis is level 2, in this level the gravity influance your shot. \nCalculate the shot and notice that the higher the Barrel, the deep the ball wiil go.";
+                    Information.Text += "\nThis is level 2, in this level the gravity influance your shot. \nCalculate the shot and notice that the higher the Barrel, the further the ball will go.";
                     easyinfo.Text = "In the easy mode, you have 1 minute and 20 balls";
                     mediuminfo.Text = "In the medium mode, you have 45 seconds and 25 balls";
                     hardinfo.Text = "In the hard mode, you have 30 seconds and 12 balls";

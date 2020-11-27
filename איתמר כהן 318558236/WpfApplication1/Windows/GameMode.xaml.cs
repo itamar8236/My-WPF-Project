@@ -626,7 +626,7 @@ namespace Bullseye
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GameModeMouseEnter(object sender, MouseEventArgs e)//עכבר נכנס ל continue או quit
+        private void GameModeMouseEnter(object sender, MouseEventArgs e)
         {
             Growing.Grow_Up((TextBlock)sender, 15, 0.5);
         }
@@ -635,7 +635,7 @@ namespace Bullseye
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GameModeMouseLeave(object sender, MouseEventArgs e)//עכבר יוצא ל continue או quit
+        private void GameModeMouseLeave(object sender, MouseEventArgs e)
         {
             Growing.Grow_Down((TextBlock)sender);
         }
