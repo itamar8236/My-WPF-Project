@@ -88,5 +88,15 @@ namespace Bullseye
         {
             Growing.Grow_Down((TextBlock)sender);
         }
+        /// <summary>
+        /// Checking if the player exit the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Pressed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                Application.Current.Shutdown();
+        }
     }
 }

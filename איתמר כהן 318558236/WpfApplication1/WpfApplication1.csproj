@@ -157,6 +157,7 @@
   <ItemGroup>
     <Resource Include="Images\icon.ico" />
     <Resource Include="icon.ico" />
+    <Resource Include="Images\cannon3.jpg" />
     <Content Include="sounds\18388__inferno__mecann.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

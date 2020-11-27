@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bullseye"
         mc:Ignorable="d"
-        Title="Instructions" Height="700" Width="800" WindowState="Maximized" WindowStyle="None" Activated="Window_Activated" Icon="/Bullseye;component/Images/icon.ico">
+        Title="Instructions" Height="700" Width="800" WindowState="Maximized" WindowStyle="None" Activated="Window_Activated" Icon="/Bullseye;component/Images/icon.ico" KeyDown="Pressed">
     <Window.Background>
         <ImageBrush ImageSource="/Bullseye;component/Images/cannon image2.jpg"/>
     </Window.Background>
@@ -26,33 +26,33 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="8*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" x:Name="TargetsNumInvite" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="45" FontStyle="Italic" TextAlignment="Center" Height="50" Foreground="#FF4C2C63" Text="Input the number of targets (integer number between 1 ~ 20):" Visibility="Collapsed" />
-            <TextBox Grid.Column="1" x:Name="targetsNumber"  Height="50" FontSize="30" Text="1" TextAlignment="Center" Visibility="Collapsed" />
+            <TextBlock Grid.Column="0" x:Name="TargetsNumInvite" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="45" FontStyle="Italic" TextAlignment="Center" Height="50" Foreground="#FF4C2C63" Text="Input the number of targets (between 1 ~ 20):" Visibility="Collapsed" />
+            <TextBox Grid.Column="1" x:Name="targetsNumber"  Height="50" FontSize="30" Text="1" TextAlignment="Center" Visibility="Collapsed" Margin="0, 0, 30, 0"/>
         </Grid>
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="8*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" x:Name="SpeedInvite" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="45" FontStyle="Italic" TextAlignment="Center" Foreground="#FF4C2C63" Height="50" Text="Input the starting speed of the shot(between 10 ~ 1000):" Visibility="Collapsed"/>
-            <TextBox Grid.Column="1" x:Name="Speed"  Height="50" FontSize="30" Text="100" TextAlignment="Center" Visibility="Collapsed"/>
+            <TextBox Grid.Column="1" x:Name="Speed"  Height="50" FontSize="30" Text="100" TextAlignment="Center" Visibility="Collapsed" Margin="0, 0, 30, 0"/>
         </Grid>
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="8*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" x:Name="VTargetInvite" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="30" FontStyle="Italic" TextAlignment="Center" Foreground="#FF4C2C63" Height="50" Text="Input the starting speed of first target(between 0 ~ 50, every other target is slower by 10%):" Visibility="Collapsed"/>
-            <TextBox Grid.Column="1" x:Name="VTarget"  Height="50" FontSize="30" Text="12" TextAlignment="Center" Visibility="Collapsed"/>
+            <TextBlock Grid.Column="0" x:Name="VTargetInvite" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="45" FontStyle="Italic" TextAlignment="Center" Foreground="#FF4C2C63" Height="50" Text="Input the starting speed of the first target(between 1 ~ 50):" Visibility="Collapsed"/>
+            <TextBox Grid.Column="1" x:Name="VTarget"  Height="50" FontSize="30" Text="12" TextAlignment="Center" Visibility="Collapsed" Margin="0, 0, 30, 0"/>
         </Grid>
 
-        <RadioButton x:Name="NoPhs" Content="No gravity influance(like level 1)" Height="50"  FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF4C2C63" Margin="0,10,0,0" Visibility="Collapsed"/>
-        <RadioButton x:Name="WithPhs" Content="With gravity influance(like level 2)" Height="50"  FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF4C2C63" Visibility="Collapsed" />
+        <RadioButton x:Name="NoPhs" Content="No gravity influance (like level 1)" Height="50"  FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF4C2C63" Margin="0,30,0,0" VerticalContentAlignment="Center" Visibility="Collapsed"/>
+        <RadioButton x:Name="WithPhs" Content="With gravity influance (like level 2)" Height="50"  FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF4C2C63" VerticalContentAlignment="Center" Visibility="Collapsed" />
 
         <TextBlock x:Name="easyinfo" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="35" FontStyle="Italic" TextAlignment="Center" Height="60" Margin="0,50,0,0" Visibility="Collapsed">
             <TextBlock.Foreground>
@@ -62,7 +62,7 @@
                 </LinearGradientBrush>
             </TextBlock.Foreground>
         </TextBlock>
-        <RadioButton x:Name="easy" Content="Easy" Height="50"  FontSize="35" HorizontalAlignment="Center"  VerticalAlignment="Center"  Visibility="Collapsed"/>
+        <RadioButton x:Name="easy" Content="Easy" Height="50"  FontSize="35" HorizontalAlignment="Center"  VerticalAlignment="Center" VerticalContentAlignment="Center"  Visibility="Collapsed"/>
 
         <TextBlock x:Name="mediuminfo" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="35" FontStyle="Italic" TextAlignment="Center"  Height="60"  Visibility="Collapsed">
             <TextBlock.Foreground>
@@ -72,7 +72,7 @@
                 </LinearGradientBrush>
             </TextBlock.Foreground>
         </TextBlock>
-        <RadioButton x:Name="medium" Content="Medium" Height="50"  FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" />
+        <RadioButton x:Name="medium" Content="Medium" Height="50"  FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Visibility="Collapsed" />
 
         <TextBlock x:Name="hardinfo" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="35" FontStyle="Italic" TextAlignment="Center" Height="60"  Visibility="Collapsed">
             <TextBlock.Foreground>
@@ -82,10 +82,10 @@
                 </LinearGradientBrush>
             </TextBlock.Foreground>
         </TextBlock>
-        <RadioButton x:Name="hard" Content="Hard" Height="50"  FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center"  Visibility="Collapsed"/>
+        <RadioButton x:Name="hard" Content="Hard" Height="50"  FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" Visibility="Collapsed"/>
 
 
-        <TextBlock x:Name="start" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="45" FontStyle="Italic" TextAlignment="Center" Foreground="#FFE60E0E" Height="80" Margin="0,50,0,0" Text="Start" MouseDown="GameStart" MouseEnter="Mouse_Enter" MouseLeave="Mouse_Leave" />
+        <TextBlock x:Name="start" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="45" FontStyle="Italic" TextAlignment="Center" Foreground="#FFE60E0E" Height="80" Margin="0,30,0,0" Text="Start" MouseDown="GameStart" MouseEnter="Mouse_Enter" MouseLeave="Mouse_Leave" />
         <TextBlock x:Name="babk" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="45" FontStyle="Italic" TextAlignment="Center" Foreground="#FFE60E0E" Height="80" Text="Back" MouseDown="GoBack" MouseEnter="Mouse_Enter" MouseLeave="Mouse_Leave" />
 
 

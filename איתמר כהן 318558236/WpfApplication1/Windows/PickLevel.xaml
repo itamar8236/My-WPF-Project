@@ -5,25 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bullseye"
         mc:Ignorable="d"
-         Title="Pick Level" Height="700" Width="800" WindowState="Maximized" WindowStyle="None" Icon="/Bullseye;component/Images/icon.ico">
+         Title="Pick Level" Height="700" Width="800" WindowState="Maximized" WindowStyle="None" Icon="/Bullseye;component/Images/icon.ico" KeyDown="Pressed">
+    <Window.Background>
+        <ImageBrush ImageSource="/Bullseye;component/Images/cannon3.jpg"/>
+    </Window.Background>
     <Grid>
-        <StackPanel x:Name="Menu"  Visibility="Visible">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="247*"/>
+            <ColumnDefinition Width="17*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel x:Name="Menu"  Visibility="Visible" Grid.ColumnSpan="2">
             <StackPanel.Background>
                 <ImageBrush />
             </StackPanel.Background>
 
-            <TextBlock x:Name="label1"  FontWeight="ExtraBold" FontFamily="Viner Hand ITC" FontSize="80" Height="119" Margin="33,55,33,100" TextAlignment="Center" TextDecorations="{x:Null}" Text="Pick level" Foreground="#FF0F1980" >
+            <TextBlock x:Name="label1"  FontWeight="ExtraBold" FontFamily="Viner Hand ITC" FontSize="80" Height="119" Margin="33,55,33,100" TextAlignment="Center" TextDecorations="{x:Null}" Text="Pick level" Foreground="#FF2D5529" >
                 <TextBlock.Effect>
                     <DropShadowEffect x:Name="BJEffect" ShadowDepth="15" Color="#FFC0D1CB"  BlurRadius="15"/>
                 </TextBlock.Effect></TextBlock>
 
-            <TextBlock x:Name="Level1"  FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="60" FontStyle="Italic" TextAlignment="Center" MouseDown="PickLevel_MouseDown" Foreground="#FF2D5529"  Text="Level 1" MouseEnter="PickLevel_MouseEnter" MouseLeave="PickLevel_MouseLeave" Height="80"  />
+            <TextBlock x:Name="Level1"  FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="60" FontStyle="Italic" TextAlignment="Center" MouseDown="PickLevel_MouseDown" Foreground="#FF0F1980"  Text="Level 1" MouseEnter="PickLevel_MouseEnter" MouseLeave="PickLevel_MouseLeave" Height="80"  />
 
-            <TextBlock x:Name="Level2" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="60" FontStyle="Italic" TextAlignment="Center" MouseDown="PickLevel_MouseDown" Foreground="#FF2D5529" Text="Level 2" MouseEnter="PickLevel_MouseEnter" MouseLeave="PickLevel_MouseLeave" Height="80" />
+            <TextBlock x:Name="Level2" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="60" FontStyle="Italic" TextAlignment="Center" MouseDown="PickLevel_MouseDown" Foreground="#FF0F1980" Text="Level 2" MouseEnter="PickLevel_MouseEnter" MouseLeave="PickLevel_MouseLeave" Height="80" />
 
-            <TextBlock x:Name="Training" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="60" FontStyle="Italic" TextAlignment="Center" MouseDown="PickLevel_MouseDown" Foreground="#FF2D5529" Text="Training" MouseEnter="PickLevel_MouseEnter" MouseLeave="PickLevel_MouseLeave" Height="80"/>
+            <TextBlock x:Name="Training" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="60" FontStyle="Italic" TextAlignment="Center" MouseDown="PickLevel_MouseDown" Foreground="#FF0F1980" Text="Training" MouseEnter="PickLevel_MouseEnter" MouseLeave="PickLevel_MouseLeave" Height="80"/>
 
-            <TextBlock x:Name="Back" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="60" FontStyle="Italic" TextAlignment="Center" Foreground="#FF2D5529" Text="Back" Margin="0,70,0,0" MouseEnter="PickLevel_MouseEnter" MouseLeave="PickLevel_MouseLeave" MouseDown="PickLevel_MouseDown" Height="75"/>
+            <TextBlock x:Name="Back" FontFamily="High Tower Text" FontWeight="ExtraBold" FontSize="60" FontStyle="Italic" TextAlignment="Center" Foreground="#FF0F1980" Text="Back" Margin="0,70,0,0" MouseEnter="PickLevel_MouseEnter" MouseLeave="PickLevel_MouseLeave" MouseDown="PickLevel_MouseDown" Height="75"/>
 
 
         </StackPanel>

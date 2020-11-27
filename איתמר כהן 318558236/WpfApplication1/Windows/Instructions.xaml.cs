@@ -37,7 +37,7 @@ namespace Bullseye
             ConstInfo.Text = "In every game mode, control the cannon with the arrow keys, and fire with space key. \nYou can't shoot while moving the cannon or the barrel.";
             if (game.level == 0)
             {
-                Information.Text = "This is the Trainig program. Here you can design the game as you wish. \n(You have an endless shots and time)";
+                Information.Text = "This is the Trainig program. Here you can design the game as you wish. \nNotice that every target's speed decreases by 10%. \n(You have an endless shots and time)";
                 TargetsNumInvite.Visibility = Visibility.Visible;
                 targetsNumber.Visibility = Visibility.Visible;
                 SpeedInvite.Visibility = Visibility.Visible;
@@ -91,7 +91,7 @@ namespace Bullseye
                     legalInput = double.TryParse(Speed.Text, out game.speed) && legalInput;
                     legalInput = game.speed <= 1000 && game.speed >= 10 && legalInput;
                     legalInput = double.TryParse(VTarget.Text, out game.VfirstTarget) && legalInput;
-                    legalInput = game.VfirstTarget <= 50 && game.VfirstTarget >= 0 && legalInput;
+                    legalInput = game.VfirstTarget <= 50 && game.VfirstTarget > 0 && legalInput;
                     if (!legalInput)
                         MessageBox.Show("Illegal input!!!");
                     else
@@ -196,6 +196,16 @@ namespace Bullseye
             MainWindow mn = new MainWindow();
             mn.Show();
             Close();
+        }
+        /// <summary>
+        /// Checking if the player exit the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Pressed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                Application.Current.Shutdown();
         }
     }
 }
